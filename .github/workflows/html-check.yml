@@ -1,0 +1,34 @@
+name: HTML Login Page Test
+
+on:
+  push:
+    paths:
+      - 'index.html'
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check if HTML file exists
+        run: |
+          if [ -f index.html ]; then
+            echo "HTML file found successfully!"
+          else
+            echo "HTML file missing!"
+            exit 1
+          fi
+
+      - name: Check Title Tag
+        run: |
+          grep "<title>" index.html || (echo "Title tag missing!" && exit 1)
+
+      - name: Check Form Tag
+        run: |
+          grep "<form" index.html || (echo "Form tag missing!" && exit 1)
+
+      - name: Success Message
+        run: echo "Login page structure is valid!"
